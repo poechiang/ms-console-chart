@@ -1,0 +1,14 @@
+{
+  "独立版": "Independiente",
+  "首页": "página delantera",
+  "总览": "Información general",
+  "文档": "Documentos",
+  "关于": "Acerca de",
+  "帮助": "Ayuda",
+
+  "common": {
+    "pageStatus": {
+      "404": "La página no existe"
+    }
+  }
+}

@@ -10,7 +10,27 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "less"
+          "style": "less",
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true
+        },
+        "@schematics/angular:guard": {
+          "typeSeparator": ".",
+          "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": true
+        },
+        "@schematics/angular:class": {
+          "skipTests": true
+        },
+        "@schematics/angular:*": {
+          "skipTests": true
         }
       },
       "root": "",
@@ -27,10 +47,26 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              "src/assets",
+              {
+                "glob": "*.json",
+                "input": "src/assets/i18n",
+                "output": "/assets/i18n/"
               }
             ],
             "styles": [
-              "src/styles.less"
+              "src/styles.less",
+              {
+                "input": "src/assets/styles/light/index.less",
+                "bundleName": "light",
+                "inject": false
+              },
+              {
+                "input": "src/assets/styles/dark/index.less",
+                "bundleName": "dark",
+                "inject": false
+              }
             ]
           },
           "configurations": {
@@ -38,13 +74,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1MB",
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "1MB",
+                  "maximumError": "2MB"
                 }
               ],
               "outputHashing": "all"

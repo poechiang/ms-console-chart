@@ -3,13 +3,29 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "outDir": "./out-tsc/app",
-    "types": []
+    "allowJs": true,
+    "types": [],
+    "paths": {
+      "@core/*": ["src/app/core/*"],
+      "@assets/*": ["src/assets/*"],
+      "@components/*": ["src/components/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@utils/*": ["src/utils/*"],
+      "@pages/*": ["src/app/pages/*"],
+      "@shared/types": ["./src/shared-types/index.ts"]
+    }
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/assets/i18n/zh-CN/index.ts",
+    "src/assets/i18n/ru-RU/index.ts",
+    "src/assets/i18n/fr-FR/index.ts",
+    "src/assets/i18n/es-ES/index.ts",
+    "src/assets/i18n/en-US/index.ts",
+    "src/assets/i18n/ar-EG/index.ts"
   ],
-  "exclude": [
-    "src/**/*.spec.ts"
-  ]
+  "exclude": ["src/**/*.spec.ts"]
 }

@@ -1,0 +1,13 @@
+{
+  "独立版": "Standalone",
+  "首页": "Home",
+  "总览": "Overview",
+  "文档": "Document",
+  "关于": "About",
+  "帮助": "Help",
+  "common": {
+    "pageStatus": {
+      "404": "This page is not found"
+    }
+  }
+}
