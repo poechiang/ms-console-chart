@@ -1,0 +1,25 @@
+<markdown
+  [class.page-wrapper]="true"
+  [src]="fullDocPath()"
+  (error)="handleError($event)"
+  (ready)="handleReady()"
+></markdown>
+@if (anchorList.length > 0) {
+  <nz-anchor class="anchor-list" [nzShowInkInFixed]="true" [nzOffsetTop]="62">
+    <ng-container
+      [ngTemplateOutlet]="linkList"
+      [ngTemplateOutletContext]="{ $implicit: anchorList }"
+    ></ng-container>
+
+    <ng-template #linkList let-list>
+      @for (item of list; track item.id) {
+        <nz-link [nzHref]="`#${item.id}`" [nzTitle]="item.text">
+          <ng-container
+            [ngTemplateOutlet]="linkList"
+            [ngTemplateOutletContext]="{ $implicit: item.children ?? [] }"
+          ></ng-container>
+        </nz-link>
+      }
+    </ng-template>
+  </nz-anchor>
+}

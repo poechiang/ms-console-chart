@@ -9,6 +9,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MARKED_OPTIONS, MarkedRenderer, provideMarkdown } from 'ngx-markdown';
 import { routes } from './app.routes';
 import startupProvider from './startup.provider';
 
@@ -18,6 +19,17 @@ const baseHrefProvider = {
   useValue: window.__MODULE_IN_MFE__ ? '/chart/' : '/',
 };
 
+const markedOptionsFactory = () => {
+  const renderer = new MarkedRenderer();
+  const baseImagePath = `/docs/images`;
+  renderer.image = (opt) => {
+    const [alt, ...attributes] = opt.text.split('|');
+    const fullPath = opt.href.startsWith('http') ? opt.href : `${baseImagePath}/${opt.href}`;
+    return `<img src="${fullPath}" alt="${alt}" ${attributes.join(' ')} style="max-width:100%">`;
+  };
+
+  return { renderer };
+};
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),
@@ -25,8 +37,14 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding()),
     baseHrefProvider,
     provideTranslateService({
-      defaultLanguage: 'zh-CN',
+      fallbackLang: 'zh-CN',
       loader: provideTranslateHttpLoader({ prefix: 'assets/i18n/', suffix: '.json' }),
+    }),
+    provideMarkdown({
+      markedOptions: {
+        provide: MARKED_OPTIONS,
+        useFactory: markedOptionsFactory,
+      },
     }),
     provideAppInitializer(startupProvider),
   ],

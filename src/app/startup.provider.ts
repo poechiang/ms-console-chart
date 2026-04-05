@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, Routes } from '@angular/router';
 import { I18nService } from '@core/services/i18n';
-import { HeaderMenuItem } from '@shared/types';
+import { AsideMenuItem, HeaderMenuItem } from '@shared/types';
 import { routes } from './app.routes';
 import { useFrameAside, useFrameEvent, useFrameHeader } from './core/signals';
 
@@ -13,11 +13,11 @@ const updateFrameHeader = (router: Router, i18n: I18nService) => {
       router.navigateByUrl(item.path!);
     };
     header.store.menuItems = routes
-      .filter((r) => r.meta)
+      .filter((r) => r.path && r.data?.['menu'])
       .map((r) => ({
-        key: r.key as string,
-        path: r.path,
-        label: i18n.decode(r.meta.menuLabel ?? r.key),
+        key: r.path!,
+        path: r.path!,
+        label: i18n.decode(r.data?.['menu']),
         onClick,
       }));
   }
@@ -27,24 +27,26 @@ const updateFrameAside = (router: Router, i18n: I18nService) => {
   const aside = useFrameAside();
   const header = useFrameHeader();
   if (aside) {
-    const current = routes.find((r) => r.key === header?.store.selectedMenuKey);
+    const current = routes.find((r) => r.path === header?.store.selectedMenuKey);
     if (!current) {
       aside.store.menuItems = [];
       return;
     }
 
-    aside.store.menuItems =
-      current.children
-        ?.filter((r) => r.key && r.meta?.menuLabel)
-        .map((r) => ({
-          key: r.key!,
-          label: i18n.decode(r.meta.menuLabel ?? r.key),
-          path: `/${current.path}/${r.path}`,
-          onClick: (x) => router.navigateByUrl(x.path!),
-        })) ?? [];
+    aside.store.menuItems = buildAsideMenuList(current.children ?? [], i18n, router);
   }
 };
 
+const buildAsideMenuList = (routes: Routes, i18n: I18nService, router: Router): AsideMenuItem[] =>
+  routes
+    .filter((r) => r.path && r.data?.['menu'])
+    .map((r) => ({
+      key: r.path!,
+      label: i18n.decode(r.data?.['menu']),
+      path: r.data?.['fullPath'],
+      children: r.children ? buildAsideMenuList(r.children, i18n, router) : undefined,
+      onClick: () => router.navigateByUrl(r.data?.['fullPath']!),
+    })) ?? [];
 const locadCcs = (key: string) => {
   const link = document.querySelector(`link[data-theme="${key}"]`) as HTMLLinkElement;
   if (link) {

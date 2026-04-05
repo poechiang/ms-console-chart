@@ -1,0 +1,83 @@
+:host {
+  display: flex;
+  padding: 0;
+  margin: 24px;
+  gap: 24px;
+  .page-wrapper {
+    margin: 0;
+    padding-block: 0;
+    padding-inline: 48px;
+  }
+  .anchor-list {
+    margin: 0;
+    min-width: 210px;
+  }
+  ::ng-deep markdown {
+    flex: auto;
+
+    h1 {
+      margin-block: 2em;
+    }
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      position: relative;
+      &:hover::after {
+        content: '#';
+        display: inline-block;
+        margin-inline-start: 8px;
+        color: #7f7f7f;
+        position: absolute;
+      }
+    }
+    h2 {
+      margin-block: 1.5em;
+      &:hover::after {
+        content: '#2';
+      }
+    }
+
+    h3 {
+      margin-block: 1em;
+
+      &:hover::after {
+        content: '#3';
+      }
+    }
+    h4 {
+      margin-block: 1em;
+
+      &:hover::after {
+        content: '#4';
+      }
+    }
+    h5 {
+      margin-block: 1em;
+
+      &:hover::after {
+        content: '#5';
+      }
+    }
+    h6 {
+      margin-block: 1em;
+
+      &:hover::after {
+        content: '#6';
+      }
+    }
+    img {
+      border: 10px solid #7f7f7f;
+      border-radius: 20px;
+      display: block;
+      margin-block: 16px;
+      &.h-center {
+        margin-inline: auto;
+      }
+      &.full-width {
+        width: 100%;
+      }
+    }
+  }
+}
