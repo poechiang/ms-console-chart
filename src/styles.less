@@ -1,1 +1,18 @@
+@root-entry-name: default;
 
+// 引入支持动态变量的【全量组件样式】
+// 注意：这个文件很大，但它只定义 class 结构，颜色部分全部引用了 var(--chart-xxx)
+@import 'ng-zorro-antd/ng-zorro-antd.variable.less';
+@import url(./assets/styles/reset.less);
+
+app-root {
+  display: block;
+  overflow: hidden;
+}
+.page-wrapper {
+  display: block;
+  padding: 24px;
+  margin: 24px;
+  border-radius: @border-radius-lg;
+  background-color: var(--color-back-container);
+}

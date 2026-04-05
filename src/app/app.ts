@@ -15,12 +15,11 @@ export class App {
   #events = useFrameEvent();
 
   constructor() {
-    this.#events?.on('theme:change', (key, coloring) => {
-      console.log(11111, key, coloring);
+    this.#events?.on('theme:change', (key, coloring) =>
       this.#configSrv.set('theme', {
         primaryColor: coloring,
         bodyBackground: 'red',
-      });
-    });
+      }),
+    );
   }
 }
